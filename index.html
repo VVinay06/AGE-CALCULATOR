@@ -1,1 +1,115 @@
-iguih
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Age Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .calculator {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 320px;
+    }
+    .calculator h2 {
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input[type="date"] {
+      padding: 10px;
+      width: 100%;
+      margin-bottom: 15px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      padding: 10px;
+      width: 100%;
+      font-size: 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>Age Calculator</h2>
+    
+    <label for="inputDob">Enter your date of birth:</label>
+    <input type="date" id="inputDob">
+
+    <label for="cdate">Enter current date:</label>
+    <input type="date" id="cdate">
+
+    <button onclick="calculateAge()">Calculate Age</button>
+
+    <p id="currentAge" class="result"></p>
+  </div>
+
+  <script>
+    function calculateAge() {
+      // Get the values from the input fields
+      const dobInput = document.getElementById('inputDob').value;
+      const currentDateInput = document.getElementById('cdate').value;
+
+      // Validate if both dates are provided
+      if (!dobInput || !currentDateInput) {
+        alert('Please enter both Date of Birth and Current Date.');
+        return;
+      }
+
+      // Convert input values to Date objects
+      const dob = new Date(dobInput);
+      const currentDate = new Date(currentDateInput);
+
+      // Initial difference
+      let years = currentDate.getFullYear() - dob.getFullYear();
+      let months = currentDate.getMonth() - dob.getMonth();
+      let days = currentDate.getDate() - dob.getDate();
+
+      // Adjust days if negative
+      if (days < 0) {
+        months--; // borrow a month
+        // Get the number of days in the previous month of currentDate
+        const prevMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+        days += prevMonth.getDate();
+      }
+
+      // Adjust months if negative
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      // Display the result
+      document.getElementById('currentAge').textContent =
+        `Your age is ${years} years, ${months} months, and ${days} days.`;
+    }
+  </script>
+</body>
+</html>
